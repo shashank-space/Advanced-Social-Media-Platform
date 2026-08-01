@@ -1,0 +1,64 @@
+version: "3.8"
+
+
+services:
+
+
+  frontend:
+
+    build:
+      context: ../frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+
+
+
+  backend:
+
+    build:
+      context: ../backend
+
+    ports:
+      - "5000:5000"
+
+
+    environment:
+
+      NODE_ENV: production
+
+      MONGO_URI: mongodb://mongo:27017/socialmedia
+
+      JWT_SECRET: secretkey
+
+
+
+    depends_on:
+      - mongo
+
+
+
+
+  mongo:
+
+    image: mongo:latest
+
+
+    ports:
+
+      - "27017:27017"
+
+
+    volumes:
+
+      - mongo_data:/data/db
+
+
+
+
+volumes:
+
+  mongo_data:
